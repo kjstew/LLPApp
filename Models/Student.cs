@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-//using LLPApp.Validators;
-//using PhoneNumbers;
 
 namespace LLPApp.Models
 {
@@ -32,19 +30,5 @@ namespace LLPApp.Models
         [Display(Name = "Email Address")]
         [DataType(DataType.EmailAddress)]
         public string EmailAddress { get; set; }
-
-        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        //{
-        //    var phoneNumberUtil = PhoneNumberUtil.GetInstance();
-        //    try
-        //    {
-        //        PhoneNumber testnum = phoneNumberUtil.Parse(PhoneNum, "US");
-        //        yield return new ValidationResult(phoneNumberUtil.IsValidNumber(testnum);
-        //    }
-        //    catch (NumberParseException)
-        //    {
-        //        return false;
-        //    }
-        //}
     }
 }
