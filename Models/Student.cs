@@ -20,9 +20,8 @@ namespace LLPApp.Models
         // TODO enforce uniqueness?? Repeat loaner??
         [Display(Name = "Student ID")]
         [RegularExpression(@"^[0-9]{9}$", ErrorMessage = "Student ID must be 9 digits.")]
-        public string StudentId { get; set; }
-
-        
+        public string StudentIdNum { get; set; }
+                
         [Display(Name = "Phone Number")]
         [Remote(action:"IsValidPhoneNumber", controller:"Validation", HttpMethod ="POST", ErrorMessage = "Must be a valid 10-digit US phone number.")]
         public string PhoneNum { get; set; }
@@ -30,5 +29,9 @@ namespace LLPApp.Models
         [Display(Name = "Email Address")]
         [DataType(DataType.EmailAddress)]
         public string EmailAddress { get; set; }
+
+        public bool IsAuthorizedLoaner { get; set; }
+
+        public ICollection<Loan> Loans { get; set; }
     }
 }

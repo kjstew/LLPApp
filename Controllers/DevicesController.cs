@@ -22,7 +22,7 @@ namespace LLPApp.Controllers
         // GET: Devices
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Device.ToListAsync());
+            return View(await _context.Devices.ToListAsync());
         }
 
         // GET: Devices/Details/5
@@ -33,7 +33,7 @@ namespace LLPApp.Controllers
                 return NotFound();
             }
 
-            var device = await _context.Device
+            var device = await _context.Devices
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (device == null)
             {
@@ -54,7 +54,7 @@ namespace LLPApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DeviceNum,Status,Make,Model,ModelNum,OperatingSystem,SerialNum,DateAdded,DateRetired")] Device device)
+        public async Task<IActionResult> Create([Bind("Id,DeviceNum,RTCNum,Status,Make,Model,ModelNum,OperatingSystem,SerialNum,DateAdded,DateRetired")] Device device)
         {
             if (ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace LLPApp.Controllers
                 return NotFound();
             }
 
-            var device = await _context.Device.FindAsync(id);
+            var device = await _context.Devices.FindAsync(id);
             if (device == null)
             {
                 return NotFound();
@@ -87,7 +87,7 @@ namespace LLPApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DeviceNum,Status,Make,Model,ModelNum,OperatingSystem,SerialNum,DateAdded,DateRetired")] Device device)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DeviceNum,RTCNum,Status,Make,Model,ModelNum,OperatingSystem,SerialNum,DateAdded,DateRetired")] Device device)
         {
             if (id != device.Id)
             {
@@ -125,7 +125,7 @@ namespace LLPApp.Controllers
                 return NotFound();
             }
 
-            var device = await _context.Device
+            var device = await _context.Devices
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (device == null)
             {
@@ -140,15 +140,15 @@ namespace LLPApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var device = await _context.Device.FindAsync(id);
-            _context.Device.Remove(device);
+            var device = await _context.Devices.FindAsync(id);
+            _context.Devices.Remove(device);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DeviceExists(int id)
         {
-            return _context.Device.Any(e => e.Id == id);
+            return _context.Devices.Any(e => e.Id == id);
         }
     }
 }

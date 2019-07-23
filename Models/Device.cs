@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,11 +21,10 @@ namespace LLPApp.Models
     {
         public int Id { get; set; }
 
-        // Barcode identifier
         [Display(Name = "RTC Barcode Number")]
         public int RTCNum { get; set; }
 
-        // Reusable, short identifier for practical distinction between devices
+        // Reusable, short identifier for practical distinction
         [Display(Name = "Device Number")]
         [Remote(action:"IsDeviceNumAvailable", controller:"Validation", AdditionalFields = nameof(Id), HttpMethod = "POST", ErrorMessage = "Device number is already in use.")]
         [Range(1, int.MaxValue)]
@@ -34,41 +33,39 @@ namespace LLPApp.Models
         // Default to Available?
         public DeviceStatus Status { get; set; }
 
-        // e.g. Dell, HP, Toshiba...
         [StringLength(40)]
         [Required]
         public string Make { get; set; }
 
-        // e.g. Inspiron, EliteBook, Presario, Pavilion...
         [StringLength(40)]
         [Required]
         public string Model { get; set; }
 
-        // e.g. 450, D71ST, 9480m, x360 Convertible...
         [StringLength(40)]
         [Required]
         public string ModelNum { get; set; }
 
         // TODO: add image url
 
-        // unique serial number
         [Display(Name = "Serial Number")]
         [StringLength(100)]
         [Required]
         [Remote(action: "IsSerialNumAvailable", controller: "Validation", AdditionalFields = nameof(Id), HttpMethod = "POST", ErrorMessage = "A device already has that serial number.")]
         public string SerialNum { get; set; }
 
-        // e.g. Windows 10 Professional...
         [Display(Name = "Operating System")]
         [StringLength(40)]
         [Required]
         public string OperatingSystem { get; set; }
         
-        // creation timestamp
         [Display(Name = "Date Added")]
         public DateTime DateAdded { get; set; }
-        // starts out null
+
         [Display(Name = "Date Retired")]
-        public DateTime? DateRetired { get; set; }        
+        public DateTime? DateRetired { get; set; }
+
+        // 
+        public ICollection<DeviceLog> DeviceLogs { get; set; }
+        public ICollection<Loan> Loans { get; set; }
     }
 }

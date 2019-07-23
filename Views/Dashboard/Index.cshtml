@@ -1,0 +1,107 @@
+﻿@model IEnumerable<LLPApp.Models.DashboardViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Dashboard Index</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeviceNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeviceNumRTC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeviceStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeviceMakeModelNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeviceSerialNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeviceOS)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeviceDateAdded)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeviceDateRetired)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentIdNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailAddress)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(mItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(mItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(mItem => item.DeviceNum)
+            </td>
+            <td>
+                @Html.DisplayFor(mItem => item.DeviceNumRTC)
+            </td>
+            <td>
+                @Html.DisplayFor(mItem => item.DeviceStatus)
+            </td> 
+            <td>
+                @Html.DisplayFor(mItem => item.DeviceMakeModelNum)
+            </td>
+            <td>
+                @Html.DisplayFor(mItem => item.DeviceSerialNum)
+            </td>
+            <td>
+                @Html.DisplayFor(mItem => item.DeviceOS)
+            </td>
+            <td>
+                @Html.DisplayFor(mItem => item.DeviceDateAdded)
+            </td>
+            <td>
+                @Html.DisplayFor(mItem => item.DeviceDateRetired)
+            </td>
+            <td>
+                @Html.DisplayFor(mItem => item.StudentName)
+            </td>
+            <td>
+                @Html.DisplayFor(mItem => item.StudentIdNum)
+            </td>
+            <td>
+                @Html.DisplayFor(mItem => item.PhoneNum)
+            </td>
+            <td>
+                @Html.DisplayFor(mItem => item.EmailAddress)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

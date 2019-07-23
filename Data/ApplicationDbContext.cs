@@ -13,7 +13,8 @@ namespace LLPApp.Data
             : base(options)
         {
         }
-        public DbSet<LLPApp.Models.Device> Device { get; set; }
-        public DbSet<LLPApp.Models.Student> Student { get; set; }
+        public DbSet<LLPApp.Models.Loan> Loans { get; set; }
+        public DbSet<LLPApp.Models.Device> Devices { get; set; }
+        public DbSet<LLPApp.Models.Student> Students { get; set; }
     }
 }

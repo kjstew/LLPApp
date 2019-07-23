@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LLPApp.Data;
 using LLPApp.Models;
+using System.Net.Mail;
 
 namespace LLPApp.Controllers
 {
@@ -22,7 +23,7 @@ namespace LLPApp.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Student.ToListAsync());
+            return View(await _context.Students.ToListAsync());
         }
 
         // GET: Students/Details/5
@@ -33,7 +34,7 @@ namespace LLPApp.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Student
+            var student = await _context.Students
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
@@ -54,12 +55,30 @@ namespace LLPApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StudentId,PhoneNum,EmailAddress")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StudentIdNum,PhoneNum,EmailAddress")] Student student)
         {
+            // TODO set default IsAuthorizedLoaner here?
+
             if (ModelState.IsValid)
             {
                 _context.Add(student);
                 await _context.SaveChangesAsync();
+
+                /* add email confirmation code here? */
+                //MailMessage mail = new MailMessage();
+                //SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+
+                //mail.From = new MailAddress("kyjast@gmail.com");
+                //mail.To.Add(student.EmailAddress);
+                //mail.Subject = "Test Confirmation Mail";
+                //mail.Body = $"Congratulations, {student.FirstName}! This automated confirmation message sent successfully!";
+
+                //smtpServer.Port = 587;
+                //smtpServer.Credentials = new System.Net.NetworkCredential("kyjast", "etdasbdrgfoglbcv");
+                //smtpServer.EnableSsl = true;
+
+                //smtpServer.Send(mail);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
@@ -73,7 +92,7 @@ namespace LLPApp.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Student.FindAsync(id);
+            var student = await _context.Students.FindAsync(id);
             if (student == null)
             {
                 return NotFound();
@@ -86,7 +105,7 @@ namespace LLPApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StudentId,PhoneNum,EmailAddress")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StudentIdNum,PhoneNum,EmailAddress")] Student student)
         {
             if (id != student.Id)
             {
@@ -124,7 +143,7 @@ namespace LLPApp.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Student
+            var student = await _context.Students
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
@@ -139,15 +158,15 @@ namespace LLPApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Student.FindAsync(id);
-            _context.Student.Remove(student);
+            var student = await _context.Students.FindAsync(id);
+            _context.Students.Remove(student);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StudentExists(int id)
         {
-            return _context.Student.Any(e => e.Id == id);
+            return _context.Students.Any(e => e.Id == id);
         }
     }
 }
