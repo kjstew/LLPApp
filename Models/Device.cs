@@ -10,9 +10,10 @@ namespace LLPApp.Models
     public enum DeviceStatus
     {
         Available = 0,
-        Reserved = 1,
-        [Display(Name = "Checked Out")]
-        CheckedOut = 2,
+        Assigned = 1,
+        Reserve = 2,
+        //[Display(Name = "Checked Out")]
+        //CheckedOut = 3,
         Maintenance = 3,
         Retired = 4
     }
@@ -65,7 +66,7 @@ namespace LLPApp.Models
         public DateTime? DateRetired { get; set; }
 
         // 
-        public ICollection<DeviceLog> DeviceLogs { get; set; }
+        // public ICollection<DeviceLog> DeviceLogs { get; set; }
         public ICollection<Loan> Loans { get; set; }
     }
 }

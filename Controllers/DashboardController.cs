@@ -55,11 +55,11 @@ namespace LLPApp.Controllers
                                 dvc.OperatingSystem,
                                 dvc.DateAdded,
                                 dvc.DateRetired,
-                                std.FirstName,
-                                std.LastName,
+                                std.FName,
+                                std.LName,
                                 std.StudentIdNum,
                                 std.PhoneNum,
-                                std.EmailAddress
+                                std.Email
                             }).ToList();
 
             foreach (var item in datalist)
@@ -75,10 +75,10 @@ namespace LLPApp.Controllers
                 dvm.DeviceOS = item.OperatingSystem;
                 dvm.DeviceDateAdded = item.DateAdded;
                 dvm.DeviceDateRetired = item.DateRetired;
-                dvm.StudentName = $"{item.FirstName} {item.LastName}";
+                dvm.StudentName = $"{item.FName} {item.LName}";
                 dvm.StudentIdNum = item.StudentIdNum;
                 dvm.PhoneNum = item.PhoneNum;
-                dvm.EmailAddress = item.EmailAddress;
+                dvm.Email = item.Email;
                 dashboardList.Add(dvm);
             }
             

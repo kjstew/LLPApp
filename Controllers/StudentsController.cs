@@ -55,7 +55,7 @@ namespace LLPApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StudentIdNum,PhoneNum,EmailAddress")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,FName,LName,StudentIdNum,PhoneNum,Email")] Student student)
         {
             // TODO set default IsAuthorizedLoaner here?
 
@@ -69,9 +69,9 @@ namespace LLPApp.Controllers
                 //SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
 
                 //mail.From = new MailAddress("kyjast@gmail.com");
-                //mail.To.Add(student.EmailAddress);
+                //mail.To.Add(student.Email);
                 //mail.Subject = "Test Confirmation Mail";
-                //mail.Body = $"Congratulations, {student.FirstName}! This automated confirmation message sent successfully!";
+                //mail.Body = $"Congratulations, {student.FName}! This automated confirmation message sent successfully!";
 
                 //smtpServer.Port = 587;
                 //smtpServer.Credentials = new System.Net.NetworkCredential("kyjast", "etdasbdrgfoglbcv");
@@ -105,7 +105,7 @@ namespace LLPApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StudentIdNum,PhoneNum,EmailAddress")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FName,LName,StudentIdNum,PhoneNum,Email")] Student student)
         {
             if (id != student.Id)
             {

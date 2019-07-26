@@ -68,6 +68,20 @@ namespace LLPApp.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult IsStudentIdNumAvailable(string stdIdNum, int? id)
+        {
+             // editing/creating student, StudentIdNum not found in existing devices
+            if (!_context.Students.Any(d => d.StudentIdNum.Equals(stdIdNum)))
+                return Json(true);
+            // editing student, unchanged StudentIdNum
+            else if (id != null && _context.Students.Find(id).StudentIdNum == stdIdNum)
+                return Json(true);
+            // if none pass, not valid StudentIdNum
+            else
+                return Json(false);
+        }
+
         //public IActionResult Index()
         //{
         //    return View();

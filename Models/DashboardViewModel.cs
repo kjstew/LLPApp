@@ -25,6 +25,6 @@ namespace LLPApp.Models
         public string StudentName { get; set; }
         public string StudentIdNum { get; set; }
         public string PhoneNum { get; set; }
-        public string EmailAddress { get; set; }
+        public string Email { get; set; }
     }
 }
