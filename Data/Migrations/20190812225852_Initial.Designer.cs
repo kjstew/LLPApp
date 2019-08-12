@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LLPApp.Data.Migrations
+namespace LLPApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190722212022_ViewModelChanges")]
-    partial class ViewModelChanges
+    [Migration("20190812225852_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,29 +27,15 @@ namespace LLPApp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateAdded");
-
-                    b.Property<DateTime?>("DateRetired");
+                    b.Property<int>("DeviceModelId");
 
                     b.Property<int?>("DeviceNum");
-
-                    b.Property<int>("DeviceNumRTC");
-
-                    b.Property<string>("Make")
-                        .IsRequired()
-                        .HasMaxLength(40);
-
-                    b.Property<string>("Model")
-                        .IsRequired()
-                        .HasMaxLength(40);
-
-                    b.Property<string>("ModelNum")
-                        .IsRequired()
-                        .HasMaxLength(40);
 
                     b.Property<string>("OperatingSystem")
                         .IsRequired()
                         .HasMaxLength(40);
+
+                    b.Property<int>("RTCNum");
 
                     b.Property<string>("SerialNum")
                         .IsRequired()
@@ -59,26 +45,35 @@ namespace LLPApp.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DeviceModelId");
+
                     b.ToTable("Devices");
                 });
 
-            modelBuilder.Entity("LLPApp.Models.DeviceLog", b =>
+            modelBuilder.Entity("LLPApp.Models.DeviceModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("DeviceId");
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasMaxLength(40);
 
-                    b.Property<string>("Notes");
+                    b.Property<string>("ImgUrl");
 
-                    b.Property<DateTime>("Timestamp");
+                    b.Property<string>("ModelName")
+                        .IsRequired()
+                        .HasMaxLength(40);
+
+                    b.Property<string>("ModelNum")
+                        .HasMaxLength(40);
+
+                    b.Property<int>("Type");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DeviceId");
-
-                    b.ToTable("DeviceLog");
+                    b.ToTable("DeviceModel");
                 });
 
             modelBuilder.Entity("LLPApp.Models.Loan", b =>
@@ -93,7 +88,7 @@ namespace LLPApp.Data.Migrations
 
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<int?>("StudentId");
+                    b.Property<int>("StudentId");
 
                     b.HasKey("Id");
 
@@ -110,13 +105,11 @@ namespace LLPApp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("EmailAddress");
+                    b.Property<string>("Email");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FName");
 
-                    b.Property<bool>("IsAuthorizedLoaner");
-
-                    b.Property<string>("LastName");
+                    b.Property<string>("LName");
 
                     b.Property<string>("PhoneNum");
 
@@ -292,11 +285,12 @@ namespace LLPApp.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("LLPApp.Models.DeviceLog", b =>
+            modelBuilder.Entity("LLPApp.Models.Device", b =>
                 {
-                    b.HasOne("LLPApp.Models.Device", "Device")
-                        .WithMany("DeviceLogs")
-                        .HasForeignKey("DeviceId");
+                    b.HasOne("LLPApp.Models.DeviceModel", "DeviceModel")
+                        .WithMany("Devices")
+                        .HasForeignKey("DeviceModelId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("LLPApp.Models.Loan", b =>
@@ -307,7 +301,8 @@ namespace LLPApp.Data.Migrations
 
                     b.HasOne("LLPApp.Models.Student", "Student")
                         .WithMany("Loans")
-                        .HasForeignKey("StudentId");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

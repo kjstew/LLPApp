@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.DeviceNum)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Model)
+                @Html.DisplayNameFor(model => model.DeviceModel)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.SerialNum)
@@ -26,12 +26,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateAdded)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateRetired)
             </th>
             <th></th>
         </tr>
@@ -54,8 +48,13 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(mItem => item.Make)
-                @Html.DisplayFor(mItem => item.Model)
+                @{
+                    var brandmodel = 
+                        item.DeviceModel.Brand + " " + 
+                        item.DeviceModel.ModelName + " " + 
+                        item.DeviceModel.ModelNum;
+                }
+                @brandmodel
             </td>
             <td>
                 @Html.DisplayFor(mItem => item.SerialNum)
@@ -65,12 +64,6 @@
             </td>
             <td>
                 @Html.DisplayFor(mItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(mItem => item.DateAdded)
-            </td>
-            <td>
-                @Html.DisplayFor(mItem => item.DateRetired)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

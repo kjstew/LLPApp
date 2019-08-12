@@ -48,13 +48,8 @@ namespace LLPApp.Controllers
                                 dvc.DeviceNum,
                                 dvc.RTCNum,
                                 dvc.Status,
-                                dvc.Make,
-                                dvc.Model,
-                                dvc.ModelNum,
                                 dvc.SerialNum,
                                 dvc.OperatingSystem,
-                                dvc.DateAdded,
-                                dvc.DateRetired,
                                 std.FName,
                                 std.LName,
                                 std.StudentIdNum,
@@ -70,11 +65,9 @@ namespace LLPApp.Controllers
                 dvm.DeviceNum = item.DeviceNum != null ? item.DeviceNum.ToString() : "Unassigned";
                 dvm.RTCNum = item.RTCNum;
                 dvm.DeviceStatus = item.Status;
-                dvm.DeviceMakeModelNum = $"{item.Make} + {item.Model} + {item.ModelNum}";
+                //dvm.DeviceMakeModelNum = $"{item.Make} + {item.Model} + {item.ModelNum}";
                 dvm.DeviceSerialNum = item.SerialNum;
                 dvm.DeviceOS = item.OperatingSystem;
-                dvm.DeviceDateAdded = item.DateAdded;
-                dvm.DeviceDateRetired = item.DateRetired;
                 dvm.StudentName = $"{item.FName} {item.LName}";
                 dvm.StudentIdNum = item.StudentIdNum;
                 dvm.PhoneNum = item.PhoneNum;

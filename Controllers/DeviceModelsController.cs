@@ -10,24 +10,22 @@ using LLPApp.Models;
 
 namespace LLPApp.Controllers
 {
-    public class DevicesController : Controller
+    public class DeviceModelsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public DevicesController(ApplicationDbContext context)
+        public DeviceModelsController(ApplicationDbContext context)
         {
             _context = context;
-
-           
         }
 
-        // GET: Devices
+        // GET: DeviceModels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Devices.Include(dev => dev.DeviceModel).ToListAsync());
+            return View(await _context.DeviceModels.ToListAsync());
         }
 
-        // GET: Devices/Details/5
+        // GET: DeviceModels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,40 +33,39 @@ namespace LLPApp.Controllers
                 return NotFound();
             }
 
-            var device = await _context.Devices
+            var DeviceModel = await _context.DeviceModels
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (device == null)
+            if (DeviceModel == null)
             {
                 return NotFound();
             }
 
-            return View(device);
+            return View(DeviceModel);
         }
 
-        // GET: Devices/Create
+        // GET: DeviceModels/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Devices/Create
+        // POST: DeviceModels/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DeviceNum,RTCNum,Status,OperatingSystem,SerialNum,DeviceModelId")] Device device)
+        public async Task<IActionResult> Create([Bind("Id,Type,Brand,ModelName,ModelNum")] DeviceModel DeviceModel)
         {
             if (ModelState.IsValid)
             {
-                //device.DateAdded = DateTime.Now;
-                _context.Add(device);
+                _context.Add(DeviceModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(device);
+            return View(DeviceModel);
         }
 
-        // GET: Devices/Edit/5
+        // GET: DeviceModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,22 +73,22 @@ namespace LLPApp.Controllers
                 return NotFound();
             }
 
-            var device = await _context.Devices.FindAsync(id);
-            if (device == null)
+            var DeviceModel = await _context.DeviceModels.FindAsync(id);
+            if (DeviceModel == null)
             {
                 return NotFound();
             }
-            return View(device);
+            return View(DeviceModel);
         }
 
-        // POST: Devices/Edit/5
+        // POST: DeviceModels/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DeviceNum,RTCNum,Status,OperatingSystem,SerialNum,DeviceModelId")] Device device)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Brand,ModelName,ModelNum")] DeviceModel DeviceModel)
         {
-            if (id != device.Id)
+            if (id != DeviceModel.Id)
             {
                 return NotFound();
             }
@@ -100,12 +97,12 @@ namespace LLPApp.Controllers
             {
                 try
                 {
-                    _context.Update(device);
+                    _context.Update(DeviceModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DeviceExists(device.Id))
+                    if (!DeviceModelExists(DeviceModel.Id))
                     {
                         return NotFound();
                     }
@@ -116,10 +113,10 @@ namespace LLPApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(device);
+            return View(DeviceModel);
         }
 
-        // GET: Devices/Delete/5
+        // GET: DeviceModels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,30 +124,30 @@ namespace LLPApp.Controllers
                 return NotFound();
             }
 
-            var device = await _context.Devices
+            var DeviceModel = await _context.DeviceModels
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (device == null)
+            if (DeviceModel == null)
             {
                 return NotFound();
             }
 
-            return View(device);
+            return View(DeviceModel);
         }
 
-        // POST: Devices/Delete/5
+        // POST: DeviceModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var device = await _context.Devices.FindAsync(id);
-            _context.Devices.Remove(device);
+            var DeviceModel = await _context.DeviceModels.FindAsync(id);
+            _context.DeviceModels.Remove(DeviceModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DeviceExists(int id)
+        private bool DeviceModelExists(int id)
         {
-            return _context.Devices.Any(e => e.Id == id);
+            return _context.DeviceModels.Any(e => e.Id == id);
         }
     }
 }

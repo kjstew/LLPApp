@@ -12,8 +12,8 @@ namespace LLPApp.Models
         Available = 0,
         Assigned = 1,
         Reserve = 2,
-        //[Display(Name = "Checked Out")]
-        //CheckedOut = 3,
+        [Display(Name = "Checked Out")]
+        CheckedOut = 3,
         Maintenance = 3,
         Retired = 4
     }
@@ -31,22 +31,7 @@ namespace LLPApp.Models
         [Range(1, int.MaxValue)]
         public int? DeviceNum { get; set; }
 
-        // Default to Available?
         public DeviceStatus Status { get; set; }
-
-        [StringLength(40)]
-        [Required]
-        public string Make { get; set; }
-
-        [StringLength(40)]
-        [Required]
-        public string Model { get; set; }
-
-        [StringLength(40)]
-        [Required]
-        public string ModelNum { get; set; }
-
-        // TODO: add image url
 
         [Display(Name = "Serial Number")]
         [StringLength(100)]
@@ -59,14 +44,18 @@ namespace LLPApp.Models
         [Required]
         public string OperatingSystem { get; set; }
         
-        [Display(Name = "Date Added")]
-        public DateTime DateAdded { get; set; }
+        //[Display(Name = "Date Added")]
+        //public DateTime DateAdded { get; set; }
 
-        [Display(Name = "Date Retired")]
-        public DateTime? DateRetired { get; set; }
+        //[Display(Name = "Date Retired")]
+        //public DateTime? DateRetired { get; set; }
 
-        // 
-        // public ICollection<DeviceLog> DeviceLogs { get; set; }
+        public int DeviceModelId { get; set; }
+        [Display(Name = "Brand and Model")]
+        public DeviceModel DeviceModel { get; set; }
+
         public ICollection<Loan> Loans { get; set; }
+
+        // public ICollection<DeviceLog> DeviceLogs { get; set; }
     }
 }

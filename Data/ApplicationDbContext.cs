@@ -16,5 +16,6 @@ namespace LLPApp.Data
         public DbSet<LLPApp.Models.Loan> Loans { get; set; }
         public DbSet<LLPApp.Models.Device> Devices { get; set; }
         public DbSet<LLPApp.Models.Student> Students { get; set; }
+        public DbSet<LLPApp.Models.DeviceModel> DeviceModels { get; set; }
     }
 }
