@@ -1,4 +1,5 @@
-﻿ using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +14,7 @@ namespace LLPApp.Models
         Tablet
     }
 
+    // this refers to the model of a device (i.e. HP Pavilion, Lenovo Thinkpad, etc.)
     public class DeviceModel
     {
         public int Id { get; set; }
@@ -34,7 +36,7 @@ namespace LLPApp.Models
         public string ModelNum { get; set; }
 
         [Display(Name = "Image")]
-        public string ImgUrl { get; set; }
+        public string ImagePath { get; set; }
 
         public List<Device> Devices { get; set; }
     }

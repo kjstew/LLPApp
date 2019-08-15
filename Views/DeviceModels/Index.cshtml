@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.ImagePath)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Type)
             </th>
             <th>
@@ -30,6 +33,12 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @{ 
+                    var imagePath = "/img/devicemodel/" + (item.ImagePath ?? "noimage.jpg");
+                }
+                <img src="@imagePath" width="200" height="200" />
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
             </td>

@@ -7,16 +7,32 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LLPApp.Data;
 using LLPApp.Models;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using AutoMapper;
 
 namespace LLPApp.Controllers
 {
     public class DeviceModelsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public DeviceModelsController(ApplicationDbContext context)
+
+        // MAPPING
+        private readonly IMapper _mapper;
+
+        // then use use _mapper.Map or _mapper.ProjectTo
+
+
+
+        public DeviceModelsController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment, IMapper mapper)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
+            _mapper = mapper;
+
         }
 
         // GET: DeviceModels
@@ -54,31 +70,56 @@ namespace LLPApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,Brand,ModelName,ModelNum")] DeviceModel DeviceModel)
+        public async Task<IActionResult> Create([Bind("Type,Brand,ModelName,ModelNum,Image")] DeviceModelCreateViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(DeviceModel);
+                string fileName = null;
+                if (vm.Image != null)
+                {
+                    // create path string
+                    string path = Path.Combine(_hostingEnvironment.WebRootPath, "img\\devicemodel");
+                    // create file name from GUID and existing file name
+                    fileName = Guid.NewGuid().ToString() + "_" + vm.Image.FileName;
+                    // concatenate
+                    string pathFileName = Path.Combine(path, fileName);
+                    // copy IFormFile image from view model to location on server
+                    vm.Image.CopyTo(new FileStream(pathFileName, FileMode.Create));
+                } else
+                {
+                    // no image selected, use default noimage.jpg
+                    fileName = "noimage.jpg";
+                }
+
+                _context.Add(_mapper.Map(vm, new DeviceModel { ImagePath = fileName },typeof(DeviceModelCreateViewModel), typeof(DeviceModel)));
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(DeviceModel);
+            return View();
         }
 
         // GET: DeviceModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // check if id itself is null
             if (id == null)
             {
                 return NotFound();
             }
 
-            var DeviceModel = await _context.DeviceModels.FindAsync(id);
-            if (DeviceModel == null)
+            // check if the id's related DeviceModel is null
+            var dm = await _context.DeviceModels.FindAsync(id);
+            if (dm == null)
             {
                 return NotFound();
             }
-            return View(DeviceModel);
+
+
+            // TODO any way to concatonate /img/devicemodel/ here???
+            DeviceModelEditViewModel vm = _mapper.Map<DeviceModelEditViewModel>(dm);
+
+            return View(vm);
         }
 
         // POST: DeviceModels/Edit/5
@@ -86,23 +127,37 @@ namespace LLPApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Brand,ModelName,ModelNum")] DeviceModel DeviceModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Brand,ModelName,ModelNum,Image,ImagePath")] DeviceModelEditViewModel vm)
         {
-            if (id != DeviceModel.Id)
+            if (id != vm.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
+                DeviceModel dm = _mapper.Map<DeviceModel>(vm);
+
+                string fileName = null;
+                if (vm.Image != null)
                 {
-                    _context.Update(DeviceModel);
+                    string uploadFolderPath = Path.Combine(_hostingEnvironment.WebRootPath, "img\\devicemodel");
+                    fileName = Guid.NewGuid().ToString() + "_" + vm.Image.FileName;
+                    string completeFilePath = Path.Combine(uploadFolderPath, fileName);
+                    vm.Image.CopyTo(new FileStream(completeFilePath, FileMode.Create));
+
+                    // add final property to new DeviceModel
+                    dm.ImagePath = fileName;
+                }
+                // othewise no image is uploaded, existing filename was passed on during mapping (required hidden input in view)
+                try
+                {   
+                    _context.Update(dm);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DeviceModelExists(DeviceModel.Id))
+                    if (!DeviceModelExists(dm.Id))
                     {
                         return NotFound();
                     }
@@ -113,7 +168,7 @@ namespace LLPApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(DeviceModel);
+            return View();
         }
 
         // GET: DeviceModels/Delete/5

@@ -58,7 +58,7 @@ namespace LLPApp.Migrations
                         .IsRequired()
                         .HasMaxLength(40);
 
-                    b.Property<string>("ImgUrl");
+                    b.Property<string>("ImagePath");
 
                     b.Property<string>("ModelName")
                         .IsRequired()

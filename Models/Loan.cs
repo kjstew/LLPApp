@@ -16,15 +16,19 @@ namespace LLPApp.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        public Student Student { get; set; }
 
-        // nullable, but must be assigned if today's date is betw. start/end date
-        public Device Device { get; set; }
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
         // active state of loan from checking today's date against start/end or against device's status?
+
+
+        // nav properties
+        [Required]
+        public Student Student { get; set; }
+
+        // nullable, but must be assigned if today's date is betw. start/end date
+        public Device Device { get; set; }
     }
 }
